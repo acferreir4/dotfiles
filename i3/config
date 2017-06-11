@@ -1,0 +1,178 @@
+#i3 config (Andrew Ferreira)
+#
+#
+
+# Needed for i3-gaps
+hide_edge_borders both
+for_window [class="^.*"] border pixel 0
+gaps inner 15
+gaps outer 3
+# smart_gaps on
+
+# Basic Settings
+set $mod Mod4
+set $term gnome-terminal --hide-menubar
+floating_modifier $mod
+font pango:Cousine for Powerline 15
+
+# starts bar
+bar {
+    position top
+    colors {
+        background $bg-color
+        separator #757575
+        #                  border             background         text
+        focused_workspace  $bg-color          $bg-color          $text-color
+        inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+        urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+    }
+    tray_output primary
+    status_command ~/.config/bumblebee-status/bumblebee-status -m pasink battery nic disk  date time -p disk.path=/home date.format="%a %b %d %Y" time.format="%I:%M %p" -t powerline
+}
+
+
+# keybindings
+bindsym $mod+q          kill
+bindsym $mod+Shift+q    kill
+
+# open dmenu
+bindsym $mod+d          exec rofi -show run -lines 5 -eh 2 -width 100 -padding 430 -opacity "75" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "Cousine for Powerline 19"
+
+# open terminal
+bindsym $mod+Return     exec $term
+
+# change wallpaper using script, all wallpapers found in ~/wallpapers
+bindsym $mod+b          exec feh --bg-scale `~/.config/i3/randomWallpaper.sh`
+bindsym $mod+Shift+b    exec feh --bg-scale ~/wallpapers/planes.jpg
+
+# lock wm
+bindsym $mod+x          exec ~/.config/i3/lock.sh
+
+# change focus
+bindsym $mod+h          focus left
+bindsym $mod+j          focus down
+bindsym $mod+k          focus up
+bindsym $mod+l          focus right
+
+# move focused window
+bindsym $mod+Shift+h    move left
+bindsym $mod+Shift+j    move down
+bindsym $mod+Shift+k    move up
+bindsym $mod+Shift+l    move right
+
+# resize windows
+bindsym $mod+Shift+y    resize shrink width  10 px or 10 ppt
+bindsym $mod+Shift+u    resize shrink height 10 px or 10 ppt
+bindsym $mod+Shift+i    resize grow   height 10 px or 10 ppt
+bindsym $mod+Shift+o    resize grow   width  10 px or 10 ppt
+
+# tab between workspaces
+bindsym $mod+Tab        workspace back_and_forth
+
+# resize gaps
+bindsym $mod+s          gaps inner current plus  5
+bindsym $mod+Shift+s    gaps inner current minus 5
+bindsym $mod+z          gaps outer current plus  5
+bindsym $mod+Shift+z    gaps outer current minus 5
+bindsym $mod+w          gaps inner all set 15;  gaps outer all set 3
+bindsym $mod+Shift+w    gaps inner all set 0;   gaps outer all set 0
+
+# toggle split
+bindsym $mod+v          split v
+bindsym $mod+Shift+v    split h
+
+# start programs
+bindsym $mod+f          exec firefox
+bindsym $mod+r          exec $term -e ranger
+bindsym $mod+t          exec thunderbird
+
+bindsym $mod+F5         exec sudo systemctl restart NetworkManager
+
+bindsym $mod+F9         exec --no-startup-id sudo bash ~/.config/i3/mount.sh
+bindsym $mod+F10        exec --no-startup-id sudo bash ~/.config/i3/unmount.sh
+
+bindsym F11             fullscreen toggle
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Workspaces
+set $ws1    "1:"
+set $ws2    "2:"
+set $ws3    "3:"
+set $ws4    "4:"
+set $ws5    "5:"
+set $ws6    "6:"
+set $ws7    "7:"
+set $ws8    "8:"
+set $ws9    "9:"
+set $ws10   "10:"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1 
+bindsym $mod+2 workspace $ws2 
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# assign programs to specific workspaces
+assign [class="Thunderbird"]    $ws3
+assign [class="Steam"]          $ws6
+assign [class="Rhythmbox"]      $ws6
+assign [class="Evince"]         $ws8
+assign [class="Eog"]            $ws8
+
+# window colors
+set $bg-color            #2f343f
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
+
+#                       border              background         text                  indicator
+client.focused          $bg-color           $bg-color          $text-color           #00ff00
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color  #00ff00
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color  #00ff00
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color           #00ff00
+
+
+# Media player controls
+bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+ unmute
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- unmute
+bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
+bindsym XF86AudioMicMute exec amixer -D pulse sset Capture toggle
+
+# TODO: Fix brightness controller: xbacklight is fucked
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+
+# executed at startup
+exec --no-startup-id nm-applet
+exec --no-startup-id i3-msg 'workspace $ws1; exec firefox' 
+exec --no-startup-id i3-msg 'workspace $ws2; exec $term -e ranger'
+exec --no-startup-id i3-msg 'workspace $ws3; exec thunderbird'
+exec --no-startup-id i3-msg 'workspace $ws4; exec $term'
+exec --no-startup-id i3-msg 'workspace $ws6; exec steam'
+exec --no-startup-id compton -f
+exec --no-startup-id feh --bg-scale `~/.config/randomWallpaper.sh`
