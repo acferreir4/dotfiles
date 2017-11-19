@@ -1,21 +1,5 @@
-#i3 config (Andrew Ferreira)
-#
-#
-
-# Needed for i3-gaps
-hide_edge_borders both
-for_window [class="^.*"] border pixel 0
-gaps inner 15
-gaps outer 3
-# smart_gaps on
-
-# Basic Settings
-set $mod Mod4
-set $term gnome-terminal --hide-menubar
-floating_modifier $mod
-font pango:Cousine for Powerline 15
-
-# starts bar
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
 bar {
     position top
     colors {
@@ -27,8 +11,38 @@ bar {
         urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
     }
     tray_output primary
-    status_command ~/.config/bumblebee-status/bumblebee-status -m pasink battery nic disk  date time -p disk.path=/home date.format="%a %b %d %Y" time.format="%I:%M %p" -t powerline
+    status_command i3status
 }
+#i3 config (Andrew Ferreira)
+#
+
+# Needed for i3-gaps
+hide_edge_borders both
+#for_window [class="^.*"] border pixel 0
+gaps inner 15
+gaps outer 3
+#smart_gaps on
+
+# Basic Settings
+set $mod Mod4
+set $term urxvt
+floating_modifier $mod
+font pango:DejaVU Sans Mono 12
+
+# starts bar
+# bar {
+#     position top
+#     colors {
+        #background $bg-color
+        #separator #757575
+        #                  border             background         text
+        #focused_workspace  $bg-color          $bg-color          $text-color
+        #inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+        #urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+    #}
+    #tray_output primary
+    #status_command ~/.config/bumblebee-status/bumblebee-status -m pasink battery nic disk  date time -p disk.path=/home date.format="%a %b %d %Y" time.format="%I:%M %p" -t powerline
+#}
 
 
 # keybindings
@@ -41,9 +55,13 @@ bindsym $mod+d          exec rofi -show run -lines 5 -eh 2 -width 100 -padding 4
 # open terminal
 bindsym $mod+Return     exec $term
 
+# change background but using wal
+bindsym $mod+w          exec wal -i `~/.config/i3/randomWallpaper.sh`
+bindsym $mod+Shift+w    exec wal -i ~/wallpapers/zenyatta_wallpapers/default_zen.jpg
+
 # change wallpaper using script, all wallpapers found in ~/wallpapers
 bindsym $mod+b          exec feh --bg-scale `~/.config/i3/randomWallpaper.sh`
-bindsym $mod+Shift+b    exec feh --bg-scale ~/wallpapers/planes.jpg
+bindsym $mod+Shift+b    exec feh --bg-scale ~/wallpapers/zenyatta_wallpapers/default_zen.jpg
 
 # lock wm
 bindsym $mod+x          exec ~/.config/i3/lock.sh
@@ -74,8 +92,8 @@ bindsym $mod+s          gaps inner current plus  5
 bindsym $mod+Shift+s    gaps inner current minus 5
 bindsym $mod+z          gaps outer current plus  5
 bindsym $mod+Shift+z    gaps outer current minus 5
-bindsym $mod+w          gaps inner all set 15;  gaps outer all set 3
-bindsym $mod+Shift+w    gaps inner all set 0;   gaps outer all set 0
+bindsym $mod+g          gaps inner all set 15;  gaps outer all set 3
+bindsym $mod+Shift+g    gaps inner all set 0;   gaps outer all set 0
 
 # toggle split
 bindsym $mod+v          split v
@@ -85,7 +103,8 @@ bindsym $mod+Shift+v    split h
 bindsym $mod+f          exec firefox
 bindsym $mod+r          exec $term -e ranger
 bindsym $mod+t          exec thunderbird
-
+bindsym $mod+i          exec idea.sh
+bindsym $mod+p          exec $term -e pipes -r 0 -f 50 -R 
 bindsym $mod+F5         exec sudo systemctl restart NetworkManager
 
 bindsym $mod+F9         exec --no-startup-id sudo bash ~/.config/i3/mount.sh
@@ -156,23 +175,22 @@ client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-co
 client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color  #00ff00
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color           #00ff00
 
-
 # Media player controls
-bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+ unmute
-bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- unmute
-bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
-bindsym XF86AudioMicMute exec amixer -D pulse sset Capture toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+#bindsym XF86AudioMicMute exec amixer -D pulse sset Capture toggle
 
 # TODO: Fix brightness controller: xbacklight is fucked
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
 
 # executed at startup
 exec --no-startup-id nm-applet
-exec --no-startup-id i3-msg 'workspace $ws1; exec firefox' 
-exec --no-startup-id i3-msg 'workspace $ws2; exec $term -e ranger'
-exec --no-startup-id i3-msg 'workspace $ws3; exec thunderbird'
-exec --no-startup-id i3-msg 'workspace $ws4; exec $term'
-exec --no-startup-id i3-msg 'workspace $ws6; exec steam'
+#exec --no-startup-id i3-msg 'workspace $ws1; exec firefox' 
+#exec --no-startup-id i3-msg 'workspace $ws2; exec $term -e ranger'
+#exec --no-startup-id i3-msg 'workspace $ws3; exec thunderbird'
+#exec --no-startup-id i3-msg 'workspace $ws4; exec $term'
+#exec --no-startup-id i3-msg 'workspace $ws6; exec steam'
 exec --no-startup-id compton -f
 exec --no-startup-id feh --bg-scale `~/.config/randomWallpaper.sh`

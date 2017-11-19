@@ -1,0 +1,12 @@
+URxvt.scrollBar:    false
+URxvt.cursorBlink:  true
+
+!URxvt.font: xft: terminus:size=7
+URxvt.font: xft: Source Code Variable:size=7
+
+!-- Xft Settings --!
+Xft.dpi:        166
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintfull

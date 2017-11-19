@@ -1,4 +1,4 @@
 #!/bin/bash
 
-files=($HOME/wallpapers/*)
+files=($HOME/wallpapers/nature/*)
 printf "%s\n" "${files[RANDOM % ${#files[@]}]}"
