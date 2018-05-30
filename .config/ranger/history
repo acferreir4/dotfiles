@@ -1,0 +1,28 @@
+rename default_zen.jpg
+rename zen1.jpg
+rename zen2.jpg
+rename zen3.jpg
+rename zen4.png
+rename first.aux
+rename workTermReportFall.aux
+rename workTermReportFall.fdb_latexmk
+rename workTermReportFall.tex
+rename workTermReportFall.synctex.gz
+rename workTermReportFall.pdf
+rename workTermReportFall.log
+rename workTermReportFall.fls
+search et
+search netc
+mkdir coop
+rename oldReport.pdf
+Tx3342
+mkdir pics
+delete
+rename assignment1.tex
+essay.bib
+vim essay.bib
+shell 
+mkdir report
+
+mkdir latexExports
+nvim host.c

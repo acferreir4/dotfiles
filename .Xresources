@@ -1,8 +1,13 @@
 URxvt.scrollBar:    false
 URxvt.cursorBlink:  true
+URxvt.depth:        32
+URxvt.background:   rgba:0000/0000/0200/c800
+URxvt.foreground:   white
+URxvt.keysym.Shift-Control-V:   perl:clipboard:paste
 
-!URxvt.font: xft: terminus:size=7
-URxvt.font: xft: Source Code Variable:size=7
+!URxvt.font: xft: terminus:size=6
+!URxvt.font: xft: Source Code Variable:size=5
+URxvt.font: xft: SourceCodePro-Medium:size=6
 
 !-- Xft Settings --!
 Xft.dpi:        166
